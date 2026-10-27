@@ -1,0 +1,29 @@
+[package]
+name = "shazam-cli"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "MIT"
+description = "Read and export an existing Shazam web library session"
+
+[dependencies]
+chrono = { version = "0.4", features = ["serde"] }
+clap = { version = "4.6", features = ["derive", "env", "string"] }
+cli-command-kit = { path = "../cli-command-kit" }
+comfy-table = "8.0"
+csv = "1.4"
+dirs = "6"
+futures = "0.3"
+reqwest = { version = "0.13", default-features = false, features = ["rustls", "json", "query", "stream"] }
+rookie-cookies = { version = "0.6", default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tempfile = "3"
+thiserror = "2"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal", "time"] }
+tokio-util = "0.7"
+
+[dev-dependencies]
+axum = "0.8"
+rusqlite = { version = "0.40.2", features = ["bundled"] }
+
