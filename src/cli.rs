@@ -9,10 +9,12 @@ use cli_command_kit::{HelpOptions, Mode};
 use std::{io::Write, path::PathBuf};
 use tokio_util::sync::CancellationToken;
 
-pub const SKILL: &str = "Install the shazam-cli skill using the Skills CLI:\n\n  npx skills add alexgorbatchev/shazam-cli --skill shazam-cli\n\nSkill:\n\n  https://github.com/alexgorbatchev/shazam-cli/tree/main/skills/shazam-cli\n";
 pub fn help_options() -> HelpOptions {
     HelpOptions {
-        skill: Some(SKILL.into()),
+        skill: Some(
+            cli_command_kit::SkillSource::new("alexgorbatchev/shazam-cli", "main")
+                .expect("the fixed skill source names a GitHub repository"),
+        ),
         ..Default::default()
     }
 }
@@ -134,8 +136,7 @@ pub async fn execute_with(
         writeln!(out, "{}", env!("CARGO_PKG_VERSION"))?;
         return Ok(());
     }
-    if let Some(("skill", _)) = matches.subcommand() {
-        out.write_all(SKILL.as_bytes())?;
+    if cli_command_kit::write_skill(&command(mode)?, matches, &help_options(), &mut &mut *out)? {
         return Ok(());
     }
     if let Some(("cache", sub)) = matches.subcommand() {

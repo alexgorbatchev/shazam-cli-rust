@@ -24,7 +24,7 @@ async fn cached_library_formats_exports_and_cache_commands_need_no_credentials()
         (vec!["shazam-cli", "library", "list"], "title: Song"),
         (vec!["shazam-cli", "cache", "status"], "tracks: 1"),
         (vec!["shazam-cli", "--version"], "0.1.0\n"),
-        (vec!["shazam-cli", "skill"], cli::SKILL),
+        (vec!["shazam-cli", "skill"], INSTALL_TEXT),
     ] {
         let matches = cli::command(Mode::Agent)
             .unwrap()
@@ -184,7 +184,7 @@ fn native_binary_version_help_and_errors_are_streamed_once() {
             .output()
             .unwrap();
         assert!(skill.status.success());
-        assert_eq!(skill.stdout, cli::SKILL.as_bytes());
+        assert_eq!(skill.stdout, INSTALL_TEXT.as_bytes());
         for path in [
             vec!["--help"],
             vec!["library", "--help"],
@@ -237,3 +237,5 @@ fn native_binary_version_help_and_errors_are_streamed_once() {
         1
     );
 }
+
+const INSTALL_TEXT: &str = "Install the shazam-cli skill using the Skills CLI:\n\n  npx skills add alexgorbatchev/shazam-cli --skill shazam-cli\n\nSkill:\n\n  https://github.com/alexgorbatchev/shazam-cli/tree/main/skills/shazam-cli\n";
